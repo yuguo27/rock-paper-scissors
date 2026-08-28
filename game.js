@@ -1,3 +1,7 @@
+const div = document.createElement("div");
+document.body.appendChild(div);
+let humanScore = 0;
+let computerScore= 0;
 
 
 let getComputerChoice =  function(number){
@@ -23,65 +27,63 @@ let setComputerToString = function(message){
 let playRound = function(humanChoice, computerChoice){
 
     if (humanChoice == computerChoice){
-        console.log(" Egalité " + humanChoice + " égale " + computerChoice);
+        div.textContent = "Egalité " + humanChoice + " égale " + computerChoice;
+        //console.log(" Egalité " + humanChoice + " égale " + computerChoice);
         return "draw";
     }
     if ((humanChoice == "papier" && computerChoice == "pierre") || (humanChoice == "ciseaux" && computerChoice == "papier") || (humanChoice == "pierre" && computerChoice == "ciseaux")){
-        console.log(" Vous avez gagné " + humanChoice + " bat " + computerChoice);
+        div.textContent = " Vous avez gagné " + humanChoice + " bat " + computerChoice;
+        humanScore++;
+        //console.log(" Vous avez gagné " + humanChoice + " bat " + computerChoice);
         return true;
     }
     else{
-        console.log(" Vous avez perdu " + computerChoice + " bat " + humanChoice);
+        div.textContent = " Vous avez perdu " + computerChoice + " bat " + humanChoice
+        computerScore++;
+        //console.log(" Vous avez perdu " + computerChoice + " bat " + humanChoice);
         return false;
     }
 }
 
+function playGame(humanChoice) {
+    const computerChoice = getComputerChoice(3);
+    const convertComputerChoice = setComputerToString(computerChoice);
 
-let playGame = function(nbRound){
-    let humanScore = 0;
-    let computerScore = 0;
-    let i = 0;
-    while (i<nbRound){
-        const humanChoice = getHumanChoice("Veuillez saisir votre choix");
-        const computerChoice = getComputerChoice(3);
-        const convertComputerToString = setComputerToString(computerChoice);
-        const round = playRound(humanChoice, convertComputerToString);
-        if (round === true){
-            humanScore++;
-            console.log(" votre score " + humanScore)
-        }
-        else if (round === false){
-            computerScore++;
-            console.log(" score ordinateur " + computerScore)
-        }
-        console.log(" round numero " + i);
-        i++;
-    }
-    console.log(" score finale vous et ordi " + humanScore + " " +  computerScore)
-    if(humanScore > computerScore){
-        console.log(" Bravo vous avez gagné ");
+    playRound(humanChoice, convertComputerChoice);
+
+    score.textContent = "Votre score : " + humanScore +
+                        " | Score ordinateur : " + computerScore;
+
+    if (humanScore === 5) {
+        alert("Bravo, vous avez gagné !");
+        return;
+    } else if (computerScore ===5) {
+        alert("Dommage, vous avez perdu !");
         return;
     }
-    if(computerScore > humanScore){
-        console.log(" Dommage vous avez perdu ");
-        return;
-    }
-    else{
-        console.log(" Egalité ");
-        return; 
-    }
-
+    
 }
 
+let round  = 0; 
+const score = document.createElement("h1");
+document.body.appendChild(score);
+
+const rock_btn = document.querySelector("#rock_button");
+rock_btn.addEventListener("click", () => {
+    playGame("pierre")
+});
+
+const paper_btn = document.querySelector("#paper_button");
+paper_btn.addEventListener("click", () => {
+    playGame("papier")
+});
+
+const scissors_btn = document.querySelector("#scissors_button");
+scissors_btn.addEventListener("click", () => {
+    playGame("ciseaux")
+
+});
 
 
 
-playGame(5)
-
-
-
-
-//console.log(getComputerChoice(3))
-
-//console.log(getHumanChoice("Veuillez saisir votre choix"))
-
+//score.textContent = " Votre Score " + humanScore + "\nComputer Score " + computerChoice
